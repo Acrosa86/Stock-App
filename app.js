@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path =require('path')
+const axios = require ('axios')
 require('dotenv').config()
 
 mongoose.set('strictQuery', false);
@@ -44,6 +45,48 @@ app.post('/api/v1/products', (req, res)=> {
     })
     .catch((err) => console.log(err)) 
 })
+
+app.get('/', (req, res, next) => {
+    const pokeApiBaseUrl = 'https://pokeapi.co/api/v2/pokemon'
+    axios(`${pokeApiBaseUrl}/charizard`).then((axiosResponse) => {
+        const pokemon = axiosResponse.data
+        console.log({ axiosResponse })
+        const html = `
+        <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>App de Productos</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="index.js" defer></script>
+        </head>
+        <body>
+        <h1>Mi primer app</h1>
+        <a href="about.html">Sobre Andres</a>
+        <div class="form-container">
+            <input type="text" id="productName" placeholder="Nombre del producto"> 
+            <input type="number" id="productPrice" placeholder="Precio del producto">
+            <button>Crear Producto  </button>
+            <h2>Listado de Productos</h2>
+            </div>  
+
+        <div class = 'poke-card'>  
+            <h3>${pokemon.name}</h3>
+            <img src=${pokemon.sprites.front_default} alt="Esta es una imagen del pokemon: ${pokemon.name} ">
+            <span>#${pokemon.id}</span>
+        </div>
+
+         </body>
+        `
+
+        res.send(html)
+        
+    })
+  
+
+})
+
+
 
 app.use(express.static(path.join(__dirname, 'public')))
 
