@@ -57,5 +57,5 @@ app.use(express.static(path.join(__dirname, 'public')))
 //    res.status(200).sendFile('index.html',{root: __dirname})
 //})
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
