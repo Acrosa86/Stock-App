@@ -1,13 +1,14 @@
+require('dotenv').config()
+const cors = require ('cors')
 const express = require('express')
 const mongoose = require('mongoose')
-const path =require('path')
-const axios = require ('axios')
-require('dotenv').config()
+
+
 
 mongoose.set('strictQuery', false);
 
 const app = express()
-
+app.use(cors())
 mongoose
 .connect(`mongodb+srv://Acrosa86:${process.env.MONGO_DB_PASS}@development.vkwbcei.mongodb.net/stock-app?retryWrites=true&w=majority`
 )
@@ -34,8 +35,10 @@ app.use(express.json())
 
 
 app.post('/api/v1/products', (req, res)=> {
-   
-    const newProduct = new Product(req.body)
+    console.log ({body: req.body})
+  
+  
+    /*  const newProduct = new Product(req.body)
 
     newProduct
     .save()
@@ -44,9 +47,10 @@ app.post('/api/v1/products', (req, res)=> {
     res.status(201).json({ ok: true })
     })
     .catch((err) => console.log(err)) 
+    */
 })
 
-app.get('/', (req, res, next) => {
+/*app.get('/', (req, res, next) => {
     const pokeApiBaseUrl = 'https://pokeapi.co/api/v2/pokemon'
     axios(`${pokeApiBaseUrl}/charizard`).then((axiosResponse) => {
         const pokemon = axiosResponse.data
@@ -85,10 +89,10 @@ app.get('/', (req, res, next) => {
   
 
 })
+*/
 
 
-
-app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static(path.join(__dirname, 'public')))
 
 
 // Empezamos asi, pero como en diferentes sistemas operativos, 
