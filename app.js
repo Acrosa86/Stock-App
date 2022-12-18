@@ -35,10 +35,18 @@ app.use(express.json())
 
 
 app.post('/api/v1/products', (req, res)=> {
-    console.log ({body: req.body})
-  
-  
-    /*  const newProduct = new Product(req.body)
+
+    if (!req.body.name) {
+      res
+        .status (400)
+        .json({
+            ok: false,
+            message: 'El campo Nombre del Producto es obligatorio'
+        })
+        return
+    }
+
+  const newProduct = new Product(req.body)
 
     newProduct
     .save()
@@ -47,8 +55,7 @@ app.post('/api/v1/products', (req, res)=> {
     res.status(201).json({ ok: true })
     })
     .catch((err) => console.log(err)) 
-    */
-})
+ })
 
 /*app.get('/', (req, res, next) => {
     const pokeApiBaseUrl = 'https://pokeapi.co/api/v2/pokemon'
